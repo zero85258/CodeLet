@@ -1,0 +1,36 @@
+
+const {open, click, type, submit, expect, scrollToBottom} = require('/usr/local/lib/node_modules/@puppeteer/recorder');
+open('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/viewform', {}, async (page) => {
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/viewform');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/viewform');
+  await click('aria/textbox[name="姓名將這個問題設為必填"]');
+  await type('aria/textbox[name="姓名將這個問題設為必填"]', '郁少夫');
+  await click('aria/textbox[name="當日體溫將這個問題設為必填"]');
+  await type('aria/textbox[name="當日體溫將這個問題設為必填"]', '36.5');
+  await click('aria/radio[name="否"]');
+  await click('aria/radio[name="否"]');
+  await click('aria/textbox[name="請詳填寫您所去過的地方／時間？"]');
+  await type('aria/textbox[name="請詳填寫您所去過的地方／時間？"]', '期交所');
+  await click('aria/radio[name="是：客戶端"]');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/viewform?fbzx=5905648714345408541');
+  await click('aria/button[name="繼續"]');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/formResponse');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/formResponse');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/formResponse');
+  await click('aria/checkbox[name="沙沙 (業務)"]');
+  await click('aria/checkbox[name="Barbie(新竹業務)"]');
+  await click('aria/checkbox[name="Barbie(新竹業務)"]');
+  await click('aria/checkbox[name="Alex (技術)"]');
+  await click('aria/textbox[name="請問今天是前往？將這個問題設為必填"]');
+  await type('aria/textbox[name="請問今天是前往？將這個問題設為必填"]', '期交所/');
+  await type('aria/textbox[name="請問今天是前往？將這個問題設為必填"]', '期交所/100台北市中正區羅斯福路二段100號');
+  await click('aria/radio[name="是"]');
+  await click('aria/button[name="繼續"]');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/formResponse');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/formResponse');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/formResponse');
+  await click('aria/radio[name="是"]');
+  await click('aria/button[name="提交"]');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/formResponse');
+  expect(page.url()).resolves.toBe('https://docs.google.com/forms/d/e/1FAIpQLScNSC4A2IAkWMUczf2NoxqIROGtJDiiN_6Ah2x3mJUhHufvkA/formResponse');
+});
