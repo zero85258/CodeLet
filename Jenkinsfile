@@ -1,5 +1,11 @@
 // Jenkinsfile
 
+properties([pipelineTriggers([githubPush()])])
+node {
+    git url: 'https://github.com/zero85258/CodeLet',
+    branch: 'main'
+}
+
 pipeline {
     agent {
         docker {
