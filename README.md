@@ -1,4 +1,6 @@
-# 使用
+# 隨手寫
+
+# usage
 
 ```sh
 pip3 XXXXX.py
