@@ -1,0 +1,66 @@
+#  .gitlab-ci.yml
+
+stages:
+  - build
+  - test
+  - release
+  - deploy
+
+variables:
+  TEST_IMAGE: git.XXXX.com.tw:4567/$CI_PROJECT_NAMESPACE/${CI_PROJECT_NAME}:$CI_BUILD_REF_NAME
+  RELEASE_IMAGE: git.XXXX.com.tw:4567/$CI_PROJECT_NAMESPACE/${CI_PROJECT_NAME}:latest
+  IMAGE: git.XXXX.com.tw:4567/$CI_PROJECT_NAMESPACE/${CI_PROJECT_NAME}
+
+#.gitkey_template: &gitkey_definition
+#  before_script:
+#    - eval $(ssh-agent -s)
+#    - ssh-add <(echo "$GIT_COMPOSER_KEY")
+#    - mkdir -p ~/.ssh
+#    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+build:backend:
+  stage: build
+#  <<: *gitkey_definition
+  image: composer:latest
+  script:
+    - composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --no-dev --prefer-dist
+    - composer dump-autoload --optimize
+  artifacts:
+      name: "vendor"
+      untracked: true
+      expire_in: 60 mins
+      paths:
+          - $CI_PROJECT_DIR/vendor
+
+.registry_template: &registry_definition
+  before_script:
+    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin git.XXXX.com.tw:4567
+
+test:image:
+  stage: test
+  <<: *registry_definition
+  script:
+    - docker build -t $TEST_IMAGE .
+    - docker push $TEST_IMAGE
+
+.release_push_template: &release_push_definition
+  stage: release
+  <<: *registry_definition
+  script:
+    - docker pull $TEST_IMAGE
+    - docker tag $TEST_IMAGE $IMAGE:${RELEASE}
+    - docker push $IMAGE:${RELEASE}
+
+release:staging:
+  <<: *release_push_definition
+  variables:
+    RELEASE: staging
+  only:
+    - develop
+
+release:production:
+  <<: *release_push_definition
+  variables:
+    RELEASE: production
+  only:
+    - master
